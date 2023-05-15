@@ -1,0 +1,39 @@
+\q
+\l
+create database Lab135
+CREATE DATABASE Lab135
+\l
+help
+CREATE DATABASE Lab135;
+CREATE DATABASE Lab135;
+\l
+\c lab135 
+\dt
+sqlconnect
+\l
+\c lab135
+\dt
+\d
+\d newmovie
+\dt newmovie
+`SELECT * FROM newmovie;
+clear
+;
+sqlstart
+sqlstart;
+sqlstart
+`SELECT * FROM newmovie;
+cd ..
+\l
+\c lab135
+\dt lab135
+\dt lab135;
+\l
+\c lab135
+SELECT * FROM newmovie;
+\q
+\c
+\l
+\q
+\l
+\s lab135
