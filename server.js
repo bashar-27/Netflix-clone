@@ -28,7 +28,9 @@ server.post('/addMovie',addMovieHandler);
 
 server.get('/getMovies',getMovieHandler);
 
+server.put('/udateMoveiFavorite/:id',udateMoveiFavorite);
 
+server.delete('/deleteFromFav/:id',deleteMovie);
 
 function getTrending(req,res){
     const url = `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`
@@ -57,9 +59,9 @@ function getTrending(req,res){
 function addMovieHandler(req,res){
     const movie = req.body;
     console.log(movie);
-    const sql =`INSERT INTO newMovie (title, release_data, overview,poster_path)
+    const sql =`INSERT INTO newMovie (title ,poster_path ,overview ,comment)
                 VALUES ($1,$2,$3,$4);`
-    const values =[movie.title , movie.release_data , movie.overview,movie.poster_path];
+    const values =[movie.title ,movie.poster_path,movie.overview,movie.comment];
     client.query(sql,values)
     .then(data =>{
         res.send("The Movie Has Been Added Successfully");
@@ -82,12 +84,49 @@ function getMovieHandler(req,res){
 
 }
 
+function udateMoveiFavorite(req,res){
+    const id=req.params.id;
+    console.log(req.params);
+    const updateMovie = req.body;
+    const sql=`UPDATE newMovie set title=$1 ,poster_path= $2 ,overview=$3 ,comment=$4 WHERE id=${id} RETURNING *;`;
+    const value = [updateMovie.title,updateMovie.poster_path ,updateMovie.overview,updateMovie.comment];
+    client.query(sql,value)
+    .then(data=>{
+            const sql = `SELECT * FROM newMovie;`;
+            client.query(sql)
+                .then(allData => {
+                    res.send(allData.rows)
+                })
+        }).catch((error)=>{
+            errorHandler(error,req,res);
+        })
+    }
+    
+    function deleteMovie(req,res){
+        try {
+            const {id} = req.params;
+    const sql =`delete from newMovie where id=${id}`;
+    client.query(sql)
+    .then(data=>{
+        res.status(200).send("DELETED MOVIE IS SUCCESSFYLLY")
+    })
+    .catch((error)=>{
+        errorHandler(error,req,res);
+    })
+    
+        } catch (error) {
+            errorHandler(error,req,res);
+    
+        }
+    
+    }
 function movies(id,title,release_date,poster_path,overview){
     this.id=id;
     this.title=title;
     this.release_date=release_date;
     this.poster_path=poster_path;
-    this.overview=overview
+    this.overview=overview;
+    this.comment=this.comment;
 }
 function errorHandler(error,req,res){
     const errorObj = {
