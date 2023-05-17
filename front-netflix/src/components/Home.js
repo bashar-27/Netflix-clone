@@ -1,9 +1,7 @@
-
-import Navbar from "./Navbar";
-import axios from "axios";
 import { useEffect,useState } from "react";
 
 import MovieList from "./MovieList";
+import NavBar from "./NavBar";
 
 function Home(){
     const [moviesdata,setmoviesdata]=useState([]);
@@ -34,9 +32,11 @@ function Home(){
     },[])
     return(
         <>
-    <Navbar/>
-    <MovieList MovieList={moviesdata}/>
+        <div style={{backgroundColor:"#5a0404"}}>
 
+   <NavBar/>
+    <MovieList MovieList={moviesdata}/>
+    </div>
         </>
     )
 }
