@@ -27,7 +27,7 @@ function FavList(props) {
     setShowFlag(false);
   };
   const getFavMovie = () => {
-    const serverURL = `http://localhost:3005/getMovies`;
+    const serverURL = `${process.env.REACT_APP_serverURL}/getMovies`;
     fetch(serverURL).then((response) => {
       response.json().then((data) => {
         setFavArr(data);
@@ -50,7 +50,7 @@ function FavList(props) {
 
   const deleteFavMovie = (item) => {
     console.log("delete obj", item);
-    const serverURL = `http://localhost:3005/deleteFromFav/${item.id}`;
+    const serverURL = `${process.env.REACT_APP_serverURL}/deleteFromFav/${item.id}`;
     axios
       .delete(serverURL)
       .then((response) => {
